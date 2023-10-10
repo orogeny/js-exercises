@@ -3,11 +3,7 @@ export function findSmallNums(nums) {
 
 	const small = [];
 
-	for (const n of nums) {
-		if (n < 1) {
-			small.push(n);
-		}
-	}
+	nums.forEach(n => n < 1 && small.push(n));
 
 	return small;
 }
@@ -18,11 +14,7 @@ export function findNamesBeginningWith(names, char) {
 
 	const found = [];
 
-	for (const n of names) {
-		if (n.charAt(0) === char) {
-			found.push(n);
-		}
-	}
+	names.forEach(n => n.charAt(0) === char && found.push(n));
 
 	return found;
 }
@@ -32,11 +24,7 @@ export function findVerbs(words) {
 
 	const verbs = [];
 
-	for (const w of words) {
-		if (w.startsWith('to ')) {
-			verbs.push(w);
-		}
-	}
+	words.forEach(w => w.startsWith('to ') && verbs.push(w));
 
 	return verbs;
 }
@@ -46,11 +34,7 @@ export function getIntegers(nums) {
 
 	const ints = [];
 
-	for (const n of nums) {
-		if (Number.isInteger(n)) {
-			ints.push(n);
-		}
-	}
+	nums.forEach(n => Number.isInteger(n) && ints.push(n));
 
 	return ints;
 }
@@ -60,9 +44,7 @@ export function getCities(users) {
 
 	const cities = [];
 
-	for (const u of users) {
-		cities.push(u.data.city.displayName);
-	}
+	users.forEach(u => cities.push(u.data.city.displayName));
 
 	return cities;
 }
@@ -72,9 +54,7 @@ export function getSquareRoots(nums) {
 
 	const squares = [];
 
-	for (const n of nums) {
-		squares.push(Number.parseFloat(Math.sqrt(n).toFixed(2)));
-	}
+	nums.forEach(n => squares.push(Number.parseFloat(Math.sqrt(n).toFixed(2))));
 
 	return squares;
 }
@@ -87,11 +67,7 @@ export function findSentencesContaining(sentences, str) {
 
 	const found = [];
 
-	for (const s of sentences) {
-		if (search.test(s)) {
-			found.push(s);
-		}
-	}
+	sentences.forEach(s => search.test(s) && found.push(s));
 
 	return found;
 }
@@ -101,9 +77,7 @@ export function getLongestSides(triangles) {
 
 	const longest = [];
 
-	for (const t of triangles) {
-		longest.push(Math.max(...t));
-	}
+	triangles.forEach(t => longest.push(Math.max(...t)));
 
 	return longest;
 }
