@@ -1,62 +1,38 @@
 export function findSmallNums(nums) {
 	if (!nums) throw new Error('nums is required');
 
-	const small = [];
-
-	nums.forEach(n => n < 1 && small.push(n));
-
-	return small;
+	return nums.filter(n => n < 1);
 }
 
 export function findNamesBeginningWith(names, char) {
 	if (!names) throw new Error('names is required');
 	if (!char) throw new Error('char is required');
 
-	const found = [];
-
-	names.forEach(n => n.charAt(0) === char && found.push(n));
-
-	return found;
+	return names.filter(n => n.charAt(0) === char);
 }
 
 export function findVerbs(words) {
 	if (!words) throw new Error('words is required');
 
-	const verbs = [];
-
-	words.forEach(w => w.startsWith('to ') && verbs.push(w));
-
-	return verbs;
+	return words.filter(w => w.startsWith('to '));
 }
 
 export function getIntegers(nums) {
 	if (!nums) throw new Error('nums is required');
 
-	const ints = [];
-
-	nums.forEach(n => Number.isInteger(n) && ints.push(n));
-
-	return ints;
+	return nums.filter(n => Number.isInteger(n));
 }
 
 export function getCities(users) {
 	if (!users) throw new Error('users is required');
 
-	const cities = [];
-
-	users.forEach(u => cities.push(u.data.city.displayName));
-
-	return cities;
+	return users.map(u => u.data.city.displayName);
 }
 
 export function getSquareRoots(nums) {
 	if (!nums) throw new Error('nums is required');
 
-	const squares = [];
-
-	nums.forEach(n => squares.push(Number.parseFloat(Math.sqrt(n).toFixed(2))));
-
-	return squares;
+	return nums.map(n => Number.parseFloat(Math.sqrt(n).toFixed(2)));
 }
 
 export function findSentencesContaining(sentences, str) {
@@ -65,19 +41,11 @@ export function findSentencesContaining(sentences, str) {
 
 	const search = new RegExp(str, 'i');
 
-	const found = [];
-
-	sentences.forEach(s => search.test(s) && found.push(s));
-
-	return found;
+	return sentences.filter(s => search.test(s));
 }
 
 export function getLongestSides(triangles) {
 	if (!triangles) throw new Error('triangles is required');
 
-	const longest = [];
-
-	triangles.forEach(t => longest.push(Math.max(...t)));
-
-	return longest;
+	return triangles.map(t => Math.max(...t));
 }
