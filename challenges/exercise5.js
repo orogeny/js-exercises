@@ -12,6 +12,11 @@
  */
 export const sumMultiples = (arr) => {
 	if (arr === undefined) throw new Error('arr is required');
+	if (!Array.isArray(arr)) throw new Error('arr must be an array');
+
+	return arr
+		.filter(n => n % 3 === 0 || n % 5 === 0)
+		.reduce((acc, n) => acc += n, 0);
 };
 
 /**
@@ -21,6 +26,13 @@ export const sumMultiples = (arr) => {
  */
 export const isValidDNA = (str) => {
 	if (str === undefined) throw new Error('str is required');
+	if (typeof str !== "string") throw new Error('str must be a string');
+
+	if (str.length === 0) return false;
+
+	const notDNA = new RegExp("[^CGTA]");
+
+	return !notDNA.test(str);
 };
 
 /**
@@ -29,7 +41,17 @@ export const isValidDNA = (str) => {
  * @returns {String}
  */
 export const getComplementaryDNA = (str) => {
-	if (str === undefined) throw new Error('str is required');
+	if (!isValidDNA(str)) throw new Error('str must be a valid DNA string');
+
+	const complement = dna => dna === 'T'
+		? 'A'
+		: dna === 'A'
+			? 'T'
+			: dna === 'C'
+				? 'G'
+				: 'C';
+
+	return str.replace(/[ACTG]/g, complement);
 };
 
 /**
@@ -39,6 +61,14 @@ export const getComplementaryDNA = (str) => {
  */
 export const isItPrime = (n) => {
 	if (n === undefined) throw new Error('n is required');
+
+	if (n < 2 || !Number.isInteger(n)) return false;
+
+	for (let i = 2; i <= Math.sqrt(n); ++i) {
+		if (n % i === 0) return false;
+	}
+
+	return true;
 };
 
 /**
@@ -55,6 +85,11 @@ export const isItPrime = (n) => {
 export const createMatrix = (n, fill) => {
 	if (n === undefined) throw new Error('n is required');
 	if (fill === undefined) throw new Error('fill is required');
+	if (n < 0) throw new Error('n must be zero or more');
+
+	return Array.from({ length: n }).fill(
+		Array.from({ length: n }).fill(fill)
+	);
 };
 
 /**
@@ -72,4 +107,8 @@ export const createMatrix = (n, fill) => {
 export const areWeCovered = (staff, day) => {
 	if (staff === undefined) throw new Error('staff is required');
 	if (day === undefined) throw new Error('day is required');
+
+	const onRota = staff.filter(p => p.rota.includes(day));
+
+	return onRota.length >= 3;
 };
