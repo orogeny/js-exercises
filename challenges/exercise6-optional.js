@@ -8,6 +8,8 @@
  */
 export const sumDigits = (n) => {
 	if (n === undefined) throw new Error('n is required');
+
+	return [...n.toString()].reduce((acc, x) => acc += parseInt(x, 10), 0);
 };
 
 /**
@@ -18,13 +20,13 @@ export const sumDigits = (n) => {
  * @param {Number} end
  * @param {Number} step
  */
-export const createRange = (start, end, step) => {
+export const createRange = (start, end, step = 1) => {
 	if (start === undefined) throw new Error('start is required');
 	if (end === undefined) throw new Error('end is required');
-	if (step === undefined)
-		console.log(
-			"FYI: Optional step parameter not provided. Remove this check once you've handled the optional step!"
-		);
+
+	return Array
+		.from({ length: 1 + ((end - start) / step) })
+		.map((_, i) => start + (i * step));
 };
 
 /**
@@ -59,6 +61,17 @@ export const createRange = (start, end, step) => {
 export const getScreentimeAlertList = (users, date) => {
 	if (users === undefined) throw new Error('users is required');
 	if (date === undefined) throw new Error('date is required');
+
+	// In less fragmented code - these probably would live outside of function body
+	const sumUsage = usage => Object.values(usage).reduce((acc, u) => acc += u, 0);
+
+	const sumScreentime = times => times.reduce((acc, t) => acc += sumUsage(t.usage), 0);
+
+	return users
+		.map(u => [u.username, u.screenTime.filter(s => s.date === date)])
+		.map(([username, days]) => [username, sumScreentime(days)])
+		.filter(([_, usage]) => usage > 100)
+		.map(([username, _]) => username);
 };
 
 /**
@@ -73,6 +86,14 @@ export const getScreentimeAlertList = (users, date) => {
  */
 export const hexToRGB = (hexStr) => {
 	if (hexStr === undefined) throw new Error('hexStr is required');
+
+	const r = parseInt(hexStr.substring(1, 3), 16);
+	const g = parseInt(hexStr.substring(3, 5), 16);
+	const b = parseInt(hexStr.substring(5), 16);
+
+	if (isNaN(r) || isNaN(g) || isNaN(b)) throw new Error('hexStr must be a valid hex number');
+
+	return `rgb(${ r },${ g },${ b })`;
 };
 
 /**
@@ -87,4 +108,35 @@ export const hexToRGB = (hexStr) => {
  */
 export const findWinner = (board) => {
 	if (board === undefined) throw new Error('board is required');
+
+	const columns = Array.from({ length: board.length }).map(() => []);
+
+	for (const row of board) {
+		for (let i = 0; i < board.length; ++i) {
+			columns[i].push(row[i]);
+		}
+	}
+
+	const diagonals = [
+		Array.from({ length: board.length }).map((_, i) => board[i][i]),
+		Array.from({ length: board.length }).map((_, i) => board[i][board.length - i - 1])
+	];
+
+	const lines = board
+		.concat(columns)
+		.concat(diagonals)
+		.map(l => l.reduce((acc, x) => {
+			if (x !== null) acc[x] += 1;
+			return acc;
+		}, { 0: 0, X: 0 }))
+		.filter((l) => l["0"] === 3 || l.X === 3)
+		.map(l => l["0"] > l.X ? "0" : "X");
+
+	const winner = new Set(lines);
+
+	if (winner.size === 2) throw new Error('board must have, at most, one winner');
+
+	if (winner.size === 0) return null;
+
+	return winner.values().next().value;
 };

@@ -15,6 +15,13 @@
     "no-loss-of-precision": "off",
     "no-nonoctal-decimal-escape": "off",
     "no-unsafe-optional-chaining": "off",
-    "no-useless-backreference": "off"
+    "no-useless-backreference": "off",
+    "no-unused-vars": [
+      "warn",
+      {
+        "argsIgnorePattern": "^_[a-zA-Z0-9]*$",
+        "varsIgnorePattern": "^_[a-zA-Z0-9]*$"
+      }
+    ]
   }
 }
