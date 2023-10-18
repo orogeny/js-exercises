@@ -129,7 +129,7 @@ export const findWinner = (board) => {
 			if (x !== null) acc[x] += 1;
 			return acc;
 		}, { 0: 0, X: 0 }))
-		.filter((l) => l["0"] === 3 || l.X === 3)
+		.filter((l) => l["0"] === board.length || l.X === board.length)
 		.map(l => l["0"] > l.X ? "0" : "X");
 
 	const winner = new Set(lines);
