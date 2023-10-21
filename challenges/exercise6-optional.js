@@ -122,13 +122,15 @@ export const findWinner = (board) => {
 		Array.from({ length: board.length }).map((_, i) => board[i][board.length - i - 1])
 	];
 
+	const sumMarkers = line => line.reduce((acc, x) => {
+		if (x !== null) acc[x] += 1;
+		return acc;
+	}, { 0: 0, X: 0 });
+
 	const lines = board
 		.concat(columns)
 		.concat(diagonals)
-		.map(l => l.reduce((acc, x) => {
-			if (x !== null) acc[x] += 1;
-			return acc;
-		}, { 0: 0, X: 0 }))
+		.map(sumMarkers)
 		.filter((l) => l["0"] === board.length || l.X === board.length)
 		.map(l => l["0"] > l.X ? "0" : "X");
 
